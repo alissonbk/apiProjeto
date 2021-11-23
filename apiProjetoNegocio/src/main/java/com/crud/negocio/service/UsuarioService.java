@@ -1,0 +1,53 @@
+package com.crud.negocio.service;
+
+import com.crud.negocio.exception.RegraNegocioException;
+import com.crud.negocio.model.Usuario;
+import com.crud.negocio.repository.UsuarioRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UsuarioService {
+    private final UsuarioRepository repository;
+
+    public UsuarioService(UsuarioRepository repository) {
+        this.repository = repository;
+    }
+
+
+    public Usuario salvar(Usuario u){
+        return this.repository.save(u);
+    }
+
+    public List<Usuario> listarTodos(String nome){
+        if(nome != null){
+            return this.repository.findByNomeContains(nome);
+        }else{
+            return this.repository.findAll();
+        }
+
+    }
+
+    public Usuario listarId(Long id){
+        return this.repository.findById(id)
+                .orElseThrow( () -> new RegraNegocioException("Usuario não encontrado!"));
+    }
+
+    public void excluir(Long id){
+        this.repository.findById(id)
+                .map(u -> {
+                    this.repository.delete(u);
+                    return u;
+                }).orElseThrow( () -> new RegraNegocioException("Usuario não encontrado!"));
+    }
+
+    public void update(Long id, Usuario usuario){
+        this.repository.findById(id)
+                .map( u -> {
+                    usuario.setId(u.getId());
+                    this.repository.save(usuario);
+                    return u;
+                }).orElseThrow( () -> new RegraNegocioException("Usuario não encontrado!"));
+    }
+}
