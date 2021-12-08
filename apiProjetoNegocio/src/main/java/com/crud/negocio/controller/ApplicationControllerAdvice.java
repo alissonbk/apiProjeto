@@ -1,6 +1,6 @@
 package com.crud.negocio.controller;
 
-import com.crud.negocio.ApiErrors;
+import com.crud.negocio.exception.ApiErrors;
 import com.crud.negocio.exception.RegraNegocioException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,4 +1,4 @@
-package com.crud.negocio;
+package com.crud.negocio.exception;
 
 import lombok.Getter;
 

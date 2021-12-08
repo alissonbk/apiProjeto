@@ -2,22 +2,29 @@ package com.crud.negocio.service;
 
 import com.crud.negocio.exception.RegraNegocioException;
 import com.crud.negocio.model.Cliente;
+import com.crud.negocio.model.Endereco;
 import com.crud.negocio.repository.ClienteRepository;
+import com.crud.negocio.repository.EnderecoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
 public class ClienteService {
     private final ClienteRepository repository;
+    private final EnderecoRepository enderecoRepository;
 
-    public ClienteService(ClienteRepository repository) { this.repository = repository; }
+    public ClienteService(ClienteRepository repository, EnderecoRepository enderecoRepository) {
+        this.repository = repository;
+        this.enderecoRepository = enderecoRepository;
+    }
 
 
 
     public Cliente salvar(Cliente c){
+        Endereco endereco = c.getEndereco();
+        enderecoRepository.save(endereco);
         return this.repository.save(c);
     }
 
