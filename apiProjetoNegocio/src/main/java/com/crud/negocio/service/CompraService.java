@@ -121,6 +121,7 @@ public class CompraService {
                 .codigo(p.getId())
                 .valor(p.getValor())
                 .descricao(p.getDescricao())
+                .marca(p.getMarca())
                 .build();
     }
 

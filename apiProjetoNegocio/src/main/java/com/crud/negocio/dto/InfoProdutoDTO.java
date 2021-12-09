@@ -16,4 +16,5 @@ public class InfoProdutoDTO {
     private Long codigo;
     private BigDecimal valor;
     private String descricao;
+    private String marca;
 }

@@ -3,6 +3,7 @@ package com.crud.negocio.controller;
 import com.crud.negocio.model.Cliente;
 import com.crud.negocio.service.ClienteService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,6 @@ public class ClienteController {
     public ClienteController(ClienteService service) {
         this.service = service;
     }
-
 
     @GetMapping()
     public List<Cliente> listarTodos(@RequestParam(value="nome", required = false) String nome){
