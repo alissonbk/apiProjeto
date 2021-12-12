@@ -52,6 +52,11 @@ public class UsuarioService {
     }
 
     public void update(Long id, Usuario usuario){
+        //Salva o endereco primeiro
+        Endereco endereco = usuario.getEndereco();
+        usuario.setEndereco(enderecoRepository.save(endereco));
+        //Tipe de usuario é VENDEDOR por padrão
+        usuario.setTipo(Usuario.Tipo.VENDEDOR);
         this.repository.findById(id)
                 .map( u -> {
                     usuario.setId(u.getId());

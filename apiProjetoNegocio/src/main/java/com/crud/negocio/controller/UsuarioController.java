@@ -15,28 +15,32 @@ public class UsuarioController {
     public UsuarioController(UsuarioService service) { this.service = service;
     }
 
-
+    @CrossOrigin(origins = "*")
     @GetMapping()
     public List<Usuario> listarTodos(@RequestParam(value="nome", required = false) String nome){
         return service.listarTodos(nome);
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("{id}")
     public Usuario listarId(@PathVariable Long id){
         return service.listarId(id);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public Usuario cadastrar(@RequestBody Usuario usuario){
         return service.salvar(usuario);
     }
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping("{id}")
     public void deletar(@PathVariable Long id){
         service.excluir(id);
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable Long id, @RequestBody Usuario usuario){
