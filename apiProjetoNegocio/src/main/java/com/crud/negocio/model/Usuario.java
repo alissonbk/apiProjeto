@@ -1,11 +1,14 @@
 package com.crud.negocio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -19,14 +22,6 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //Email e senha usados para login
-    @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private String senha;
-    //
-
     @NotBlank
     @Column(nullable = false)
     private String nome;
@@ -38,6 +33,24 @@ public class Usuario {
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Endereco endereco;
+
+    //Dados para login
+    @Column(nullable = false)
+    @NotEmpty(message = "Email é obrigatório!")
+    private String email;
+
+    @NotEmpty(message = "Senha é obrigatório!")
+    @JsonIgnore
+    private String senha;
+
+    @Column(nullable = false)
+    private boolean ativo = true;
+
+    @Transient
+    @JsonProperty("access_token")
+    private String accessToken;
+
+
 
     @NotNull
     @Column(nullable = false)

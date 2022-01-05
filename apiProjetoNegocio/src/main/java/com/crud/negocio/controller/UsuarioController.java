@@ -5,6 +5,7 @@ import com.crud.negocio.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,7 +31,7 @@ public class UsuarioController {
     @CrossOrigin(origins = "*")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Usuario cadastrar(@RequestBody Usuario usuario){
+    public Usuario cadastrar(@RequestBody @Valid Usuario usuario){
         return service.salvar(usuario);
     }
 
