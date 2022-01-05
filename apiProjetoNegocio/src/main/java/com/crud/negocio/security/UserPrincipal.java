@@ -3,10 +3,13 @@ package com.crud.negocio.security;
 import com.crud.negocio.model.Usuario;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class UserPrincipal implements UserDetails {
     private final Usuario usuario;
@@ -16,7 +19,11 @@ public class UserPrincipal implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {return Collections.emptyList(); }
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> list = new ArrayList<>();
+        list.add(new SimpleGrantedAuthority(this.usuario.getTipo().name()));
+        return list;
+    }
 
     @Override
     public String getPassword() {

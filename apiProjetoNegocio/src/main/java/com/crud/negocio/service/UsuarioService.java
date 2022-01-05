@@ -7,6 +7,7 @@ import com.crud.negocio.model.Usuario;
 import com.crud.negocio.repository.EnderecoRepository;
 import com.crud.negocio.repository.UsuarioRepository;
 import com.crud.negocio.security.JwtTokenProvider;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,7 +57,6 @@ public class UsuarioService {
                 .orElseThrow( () -> new RegraNegocioException("Usuario ou senha inválidos"));
     }
 
-
     @Transactional
     public Usuario salvar(Usuario u){
         //Salva o endereco primeiro
@@ -75,7 +75,6 @@ public class UsuarioService {
         }else{
             return this.repository.findAll();
         }
-
     }
 
     public Usuario listarId(Long id){
