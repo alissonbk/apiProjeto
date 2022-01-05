@@ -35,7 +35,7 @@ public class Usuario {
     private Endereco endereco;
 
     //Dados para login
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotEmpty(message = "Email é obrigatório!")
     private String email;
 
