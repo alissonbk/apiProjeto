@@ -68,8 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Rotas e configurações de acesso
                 .authorizeRequests()
-                .anyRequest()
-                .authenticated();
+                    .anyRequest().authenticated();
     }
 
     @Bean

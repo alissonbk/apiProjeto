@@ -6,10 +6,8 @@ import com.crud.negocio.model.Usuario;
 import com.crud.negocio.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/login")

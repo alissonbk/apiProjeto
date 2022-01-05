@@ -40,7 +40,6 @@ public class Usuario {
     private String email;
 
     @NotEmpty(message = "Senha é obrigatório!")
-    @JsonIgnore
     private String senha;
 
     @Column(nullable = false)

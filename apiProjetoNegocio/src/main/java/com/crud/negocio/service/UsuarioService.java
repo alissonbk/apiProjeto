@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Service
-public class UsuarioService implements UserDetailsService {
+public class UsuarioService {
     private final UsuarioRepository repository;
     private final EnderecoRepository enderecoRepository;
     private final PasswordEncoder passwordEncoder;
@@ -37,25 +37,7 @@ public class UsuarioService implements UserDetailsService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    //DetailsConfigs
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Usuario usuario = repository.findByEmailIgnoreCase(email).orElseThrow( () -> new UsernameNotFoundException("Usuario não encontrado!"));
-        return User
-                .builder()
-                .username(usuario.getEmail())
-                .password(usuario.getSenha())
-                .roles(usuario.getTipo().name())
-                .build();
-    }
-    public UserDetails autenticar(Usuario usuario){
-        UserDetails userDetails = loadUserByUsername(usuario.getEmail());
-        if(passwordEncoder.matches(usuario.getSenha(), userDetails.getPassword()) ){
-            return userDetails;
-        }
-        throw new RegraNegocioException("Senha invalida!");
-    }
-
+    //LOGIN
     @NotNull
     @Transactional
     public Usuario login(@NotNull LoginDTO credentials) {
@@ -68,18 +50,13 @@ public class UsuarioService implements UserDetailsService {
                     );
                     final var auth = this.authenticationManager.authenticate(authToken);
                     SecurityContextHolder.getContext().setAuthentication(auth);
-
                     u.setAccessToken(this.jwtTokenProvider.createToken(u));
-
                     return u;
                 })
                 .orElseThrow( () -> new RegraNegocioException("Usuario ou senha inválidos"));
     }
 
 
-
-
-    //Basic Services
     @Transactional
     public Usuario salvar(Usuario u){
         //Salva o endereco primeiro
@@ -118,7 +95,7 @@ public class UsuarioService implements UserDetailsService {
         //Salva o endereco primeiro
         Endereco endereco = usuario.getEndereco();
         usuario.setEndereco(enderecoRepository.save(endereco));
-        //Tipe de usuario é VENDEDOR por padrão
+        //Tipo de usuario é VENDEDOR por padrão
         usuario.setTipo(Usuario.Tipo.VENDEDOR);
         this.repository.findById(id)
                 .map( u -> {
