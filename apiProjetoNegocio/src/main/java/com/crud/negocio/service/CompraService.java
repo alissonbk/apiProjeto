@@ -88,7 +88,7 @@ public class CompraService {
     private InfoCompraDTO converter(Compra compra){
         return InfoCompraDTO
                 .builder()
-                .codigo(compra.getId())
+                .id(compra.getId())
                 .dataCompra(compra.getDataCompra().toString())
                 .cliente(converterCliente(compra.getCliente()))
                 .vendedor(converterVendedor(compra.getUsuario()))
@@ -100,7 +100,7 @@ public class CompraService {
 
     private InfoClienteDTO converterCliente(Cliente cliente){
         return InfoClienteDTO.builder()
-                .codigo(cliente.getId())
+                .id(cliente.getId())
                 .nome(cliente.getNome())
                 .cpf(cliente.getCpf())
                 .endereco(cliente.getEndereco().getId())
@@ -109,7 +109,7 @@ public class CompraService {
 
     private InfoVendedorDTO converterVendedor(Usuario vendedor){
         return InfoVendedorDTO.builder()
-                .codigo(vendedor.getId())
+                .id(vendedor.getId())
                 .nome(vendedor.getNome())
                 .cpf(vendedor.getCpf())
                 .endereco(vendedor.getEndereco().getId())
@@ -118,7 +118,7 @@ public class CompraService {
 
     private InfoProdutoDTO converterProduto(Produto p){
         return InfoProdutoDTO.builder()
-                .codigo(p.getId())
+                .id(p.getId())
                 .valor(p.getValor())
                 .descricao(p.getDescricao())
                 .marca(p.getMarca())

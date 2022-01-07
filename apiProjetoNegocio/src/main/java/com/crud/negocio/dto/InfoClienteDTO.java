@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class InfoClienteDTO {
-    private Long codigo;
+    private Long id;
     private String nome;
     private String email;
     private String cpf;

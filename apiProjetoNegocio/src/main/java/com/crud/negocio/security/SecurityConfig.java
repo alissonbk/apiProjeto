@@ -68,9 +68,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Rotas e configurações de acesso
                 .authorizeRequests()
-                    .antMatchers("/api/login")
+                    .antMatchers("/v1/login")
                         .permitAll()
-                    .antMatchers("/api/usuarios")
+                    .antMatchers("/v1/usuarios")
                         .hasAuthority("ADMIN")
                     .anyRequest().authenticated();
     }
