@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/v1/usuarios")
 public class UsuarioController {
 
     private final UsuarioService service;

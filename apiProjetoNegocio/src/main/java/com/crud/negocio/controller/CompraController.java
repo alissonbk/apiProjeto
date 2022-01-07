@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/compras")
+@RequestMapping("/v1/compras")
 public class CompraController {
     private final CompraService service;
     public CompraController(CompraService service) { this.service = service; }
