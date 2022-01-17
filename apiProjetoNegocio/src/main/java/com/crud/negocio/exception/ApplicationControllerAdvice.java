@@ -1,4 +1,4 @@
-package com.crud.negocio.controller;
+package com.crud.negocio.exception;
 
 import com.crud.negocio.exception.ApiErrors;
 import com.crud.negocio.exception.RegraNegocioException;
@@ -14,7 +14,6 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(RegraNegocioException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiErrors handleRegraNegocioException(RegraNegocioException ex){
-        String mensagemErro = ex.getMessage();
-        return new ApiErrors(mensagemErro);
+        return new ApiErrors(ex.getMessage());
     }
 }
