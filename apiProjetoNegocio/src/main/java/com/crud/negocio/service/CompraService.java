@@ -131,6 +131,7 @@ public class CompraService {
         return InfoClienteDTO.builder()
                 .id(cliente.getId())
                 .nome(cliente.getNome())
+                .email(cliente.getEmail())
                 .cpf(cliente.getCpf())
                 .endereco(cliente.getEndereco().getId())
                 .build();
@@ -140,6 +141,7 @@ public class CompraService {
         return InfoVendedorDTO.builder()
                 .id(vendedor.getId())
                 .nome(vendedor.getNome())
+                .email(vendedor.getEmail())
                 .cpf(vendedor.getCpf())
                 .endereco(vendedor.getEndereco().getId())
                 .build();
