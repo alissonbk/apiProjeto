@@ -51,6 +51,9 @@ public class ClienteService {
     }
 
     public void update(Long id, Cliente cliente){
+        //Salva o endereco primeiro
+        Endereco endereco = cliente.getEndereco();
+        cliente.setEndereco(enderecoRepository.save(endereco));
         this.repository.findById(id)
                 .map( c -> {
                     cliente.setId(c.getId());
