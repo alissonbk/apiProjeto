@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompraDTO {
+    private Long id;
     private Long cliente;
     private Long vendedor;
     private Long produto;

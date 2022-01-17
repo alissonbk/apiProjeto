@@ -42,4 +42,9 @@ public class CompraController {
         service.excluirCompra(id);
     }
 
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateById(@PathVariable Long id, @RequestBody CompraDTO compra){
+        service.updateCompra(id, compra);
+    }
 }

@@ -74,12 +74,41 @@ public class CompraService {
 
 
 
-
     public Page<InfoCompraDTO> obterTodasCompras(Pageable pageable, Long c, Long v, Long p){
         return compraRepository.findAll((filtroVendedorClienteCompra(c, v, p)), pageable)
                 .map(this::converter);
 
+    }
 
+
+    public void updateCompra(Long id, CompraDTO dto){
+        this.compraRepository.findById(id)
+                .map( c -> {
+                    //Verifica se os ids passados existem correlacionando com o respectivo objeto
+                    Long idCliente = dto.getCliente();
+                    Long idVendedor = dto.getVendedor();
+                    Long idProduto = dto.getProduto();
+                    Cliente cliente = clienteRepository
+                            .findById(idCliente)
+                            .orElseThrow( () -> new RegraNegocioException("Cliente não encontrado!"));
+
+                    Usuario vendedor = usuarioRepository
+                            .findById(idVendedor)
+                            .orElseThrow( () -> new RegraNegocioException("Vendedor não encontrado!"));
+
+                    Produto produto = produtoRepository
+                            .findById(idProduto)
+                            .orElseThrow( () -> new RegraNegocioException("Produto não encontrado!"));
+                    //Cria objeto de compra e insere os dados
+                    Compra compra = new Compra();
+                    compra.setId(dto.getId());
+                    compra.setDataCompra(Instant.now());
+                    compra.setCliente(cliente);
+                    compra.setUsuario(vendedor);
+                    compra.setProduto(produto);
+                    compraRepository.save(compra);
+                    return c;
+                }).orElseThrow( () -> new RegraNegocioException("Compra não encontrada!"));
     }
 
 
