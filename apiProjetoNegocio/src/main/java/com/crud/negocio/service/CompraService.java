@@ -101,7 +101,7 @@ public class CompraService {
                             .orElseThrow( () -> new RegraNegocioException("Produto não encontrado!"));
                     //Cria objeto de compra e insere os dados
                     Compra compra = new Compra();
-                    compra.setId(dto.getId());
+                    compra.setId(id);
                     compra.setDataCompra(Instant.now());
                     compra.setCliente(cliente);
                     compra.setUsuario(vendedor);
