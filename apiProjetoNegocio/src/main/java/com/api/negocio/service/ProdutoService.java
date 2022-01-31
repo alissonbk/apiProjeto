@@ -21,12 +21,11 @@ public class ProdutoService {
         return this.repository.save(p);
     }
 
-    public List<Produto> listarTodos(String descricao, String marca, BigDecimal valor){
-
-        if(descricao == null && marca == null && valor == null){
+    public List<Produto> listarTodos(String descricao, String marca ){
+        if((descricao == null || descricao == "") && (marca == null || marca == "")){
             return this.repository.findAll();
         }else{
-            return this.repository.findAll(filtroProdutos(descricao, marca, valor));
+            return this.repository.findAll(filtroProdutos(descricao, marca));
         }
 
     }

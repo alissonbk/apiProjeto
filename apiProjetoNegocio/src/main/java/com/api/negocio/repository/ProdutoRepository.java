@@ -18,17 +18,14 @@ import java.util.UUID;
 public interface ProdutoRepository extends JpaRepository<Produto, Long>, JpaSpecificationExecutor<Produto> {
 
     // Filtro dinamico
-    static Specification<Produto> filtroProdutos(String descricao, String marca, BigDecimal valor) {
+    static Specification<Produto> filtroProdutos(String descricao, String marca) {
         return (produto, cq, cb) -> {
             final var predicates = new ArrayList<Predicate>();
-            if(descricao != null){
+            if(descricao != ""){
                 predicates.add(cb.like(cb.upper(produto.get("descricao")), descricao.toUpperCase() + "%"));
             }
-            if(marca != null){
+            if(marca != ""){
                 predicates.add(cb.like(cb.upper(produto.get("marca")), marca.toUpperCase() + "%"));
-            }
-            if(valor != null){
-                predicates.add(cb.equal(produto.get("valor"), valor));
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };

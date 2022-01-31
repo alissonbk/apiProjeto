@@ -19,9 +19,8 @@ public class ProdutoController {
 
     @GetMapping()
     public List<Produto> listarTodos(@RequestParam(value="descricao", required = false) String descricao,
-                                     @RequestParam(value="marca", required = false) String marca,
-                                     @RequestParam(value="valor", required = false) BigDecimal valor){
-        return service.listarTodos(descricao, marca, valor);
+                                     @RequestParam(value="marca", required = false) String marca){
+        return service.listarTodos(descricao, marca);
     }
 
 
