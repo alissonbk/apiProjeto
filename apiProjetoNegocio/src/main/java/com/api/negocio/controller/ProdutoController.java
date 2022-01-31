@@ -6,6 +6,7 @@ import com.api.negocio.service.ProdutoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -17,8 +18,10 @@ public class ProdutoController {
 
 
     @GetMapping()
-    public List<Produto> listarTodos(@RequestParam(value="descricao", required = false) String desc){
-        return service.listarTodos(desc);
+    public List<Produto> listarTodos(@RequestParam(value="descricao", required = false) String descricao,
+                                     @RequestParam(value="marca", required = false) String marca,
+                                     @RequestParam(value="valor", required = false) BigDecimal valor){
+        return service.listarTodos(descricao, marca, valor);
     }
 
 

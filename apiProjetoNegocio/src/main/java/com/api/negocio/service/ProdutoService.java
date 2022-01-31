@@ -5,7 +5,10 @@ import com.api.negocio.exception.RegraNegocioException;
 import com.api.negocio.model.Produto;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
+
+import static com.api.negocio.repository.ProdutoRepository.filtroProdutos;
 
 @Service
 public class ProdutoService {
@@ -18,12 +21,12 @@ public class ProdutoService {
         return this.repository.save(p);
     }
 
-    public List<Produto> listarTodos(String desc){
+    public List<Produto> listarTodos(String descricao, String marca, BigDecimal valor){
 
-        if(desc != null){
-            return this.repository.findByDescricaoContains(desc);
-        }else{
+        if(descricao == null && marca == null && valor == null){
             return this.repository.findAll();
+        }else{
+            return this.repository.findAll(filtroProdutos(descricao, marca, valor));
         }
 
     }
