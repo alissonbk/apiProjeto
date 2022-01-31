@@ -18,8 +18,8 @@ public class UsuarioController {
 
     @CrossOrigin(origins = "*")
     @GetMapping()
-    public List<Usuario> listarTodos(@RequestParam(value="nome", required = false) String nome){
-        return service.listarTodos(nome);
+    public List<Usuario> listarTodos(){
+        return service.listarTodos();
     }
 
     @CrossOrigin(origins = "*")

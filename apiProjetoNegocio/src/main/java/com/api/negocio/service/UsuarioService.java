@@ -10,6 +10,7 @@ import com.api.negocio.security.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,18 +39,18 @@ public class UsuarioService {
     @Transactional
     public Usuario login(@NotNull LoginDTO credentials) {
         return this.repository
-                .findByEmailIgnoreCase(credentials.getEmail())
-                .map(u -> {
-                    final var authToken = new UsernamePasswordAuthenticationToken(
-                            u.getEmail(),
-                            credentials.getSenha()
-                    );
-                    final var auth = this.authenticationManager.authenticate(authToken);
-                    SecurityContextHolder.getContext().setAuthentication(auth);
-                    u.setAccessToken(this.jwtTokenProvider.createToken(u));
-                    return u;
-                })
-                .orElseThrow( () -> new RegraNegocioException("Usuario ou senha inválidos"));
+            .findByEmailIgnoreCase(credentials.getEmail())
+            .map(u -> {
+                final var authToken = new UsernamePasswordAuthenticationToken(
+                        u.getEmail(),
+                        credentials.getSenha()
+                );
+                final var auth = this.authenticationManager.authenticate(authToken);
+                SecurityContextHolder.getContext().setAuthentication(auth);
+                u.setAccessToken(this.jwtTokenProvider.createToken(u));
+                return u;
+            })
+            .orElseThrow( () -> new RegraNegocioException("Usuario ou senha inválidos"));
     }
 
     @Transactional
@@ -64,9 +65,10 @@ public class UsuarioService {
         return this.repository.save(u);
     }
 
-    public List<Usuario> listarTodos(String nome){
-        if(nome != null){
-            return this.repository.findByNomeContains(nome);
+    public List<Usuario> listarTodos(){
+        Usuario loggedUser = this.getLoggedUser();
+        if(loggedUser.getTipo().toString() == "VENDEDOR"){
+            return this.repository.findByEmail(loggedUser.getEmail());
         }else{
             return this.repository.findAll();
         }
@@ -85,18 +87,31 @@ public class UsuarioService {
                 }).orElseThrow( () -> new RegraNegocioException("Usuario não encontrado!"));
     }
 
-    public void update(Long id, Usuario usuario){
+    public void update(Long id, Usuario usuario) {
         //Salva o endereco primeiro
         Endereco endereco = usuario.getEndereco();
         usuario.setEndereco(enderecoRepository.save(endereco));
         //Tipo de usuario é VENDEDOR por padrão
         usuario.setTipo(Usuario.Tipo.VENDEDOR);
         this.repository.findById(id)
-                .map( u -> {
+                .map(u -> {
                     usuario.setId(u.getId());
                     this.repository.save(usuario);
                     return u;
-                }).orElseThrow( () -> new RegraNegocioException("Usuario não encontrado!"));
+                }).orElseThrow(() -> new RegraNegocioException("Usuario não encontrado!"));
+    }
+
+    public Usuario getLoggedUser(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails)principal).getUsername();
+            Usuario usuario = this.repository.findUsuarioByEmail(username);
+            return usuario;
+        } else {
+            String username = principal.toString();
+            Usuario usuario = this.repository.findUsuarioByEmail(username);
+            return usuario;
+        }
     }
 
 
