@@ -2,6 +2,7 @@ package com.api.negocio.security;
 
 import com.api.negocio.repository.UsuarioRepository;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -70,8 +71,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/v1/login")
                         .permitAll()
-                    .antMatchers("/v1/usuarios")
+                    .antMatchers(HttpMethod.GET, "/v1/usuarios/**")
+                        .authenticated()
+                    .antMatchers("/v1/usuarios/**")
                         .hasAuthority("ADMIN")
+
                     .anyRequest().authenticated();
     }
 
