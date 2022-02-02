@@ -18,7 +18,8 @@ public class AuthController {
 
     @PostMapping
     Usuario login(@RequestBody LoginDTO loginDTO){
-       return this.usuarioService.login(loginDTO);
+        loginDTO.setSenha(null);
+        return this.usuarioService.login(loginDTO);
     }
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
