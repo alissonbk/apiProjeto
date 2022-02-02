@@ -48,6 +48,7 @@ public class UsuarioService {
                 final var auth = this.authenticationManager.authenticate(authToken);
                 SecurityContextHolder.getContext().setAuthentication(auth);
                 u.setAccessToken(this.jwtTokenProvider.createToken(u));
+                u.setSenha(null);
                 return u;
             })
             .orElseThrow( () -> new RegraNegocioException("Usuario ou senha inválidos"));
